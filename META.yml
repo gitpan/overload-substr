@@ -1,0 +1,25 @@
+---
+abstract: "overload Perl's C<substr()> function"
+author:
+  - 'Paul Evans <leonerd@leonerd.org.uk>'
+build_requires:
+  ExtUtils::CBuilder: 0
+  Test::More: 0
+  Test::NoWarnings: 0
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3607'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: overload-substr
+provides:
+  overload::substr:
+    file: lib/overload/substr.pm
+    version: 0.01_001
+requires:
+  XSLoader: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.01_001

@@ -1,0 +1,53 @@
+NAME
+    "overload::substr" - overload Perl's "substr()" function
+
+SYNOPSIS
+     package My::Stringlike::Object;
+
+     use overload::substr substr => sub {
+        my $self = shift;
+        if( @_ > 2 ) {
+           $self->replace_substr( @_ );
+        }
+        else {
+           return $self->get_substr( @_ );
+        }
+     };
+
+     ...
+
+DESCRIPTION
+    This module allows an object class to overload the "substr" core
+    function, which Perl's "overload" pragma does not allow by itself.
+
+    It is invoked similarly to the "overload" pragma, being passed a single
+    named argument which should be a code reference to implement the
+    "substr" function.
+
+     use overload::substr substr => \&SUBSTR;
+
+    The referred function will be invoked as per core's "substr"; namely, it
+    will take the string to be operated on (which will be an object in this
+    case), an offset, optionally a length, and optionally a replacement.
+
+     $str->SUBSTR( $offset );
+     $str->SUBSTR( $offset, $length );
+     $str->SUBSTR( $offset, $length, $replacement );
+
+    In each case, whatever it returns will be the return value of the
+    "substr" function that invoked it.
+
+TODO
+    *       Allow bare method names as well as CODE refs
+
+    *       Implement LVALUE "substr( $str, $offset, $length ) =
+            $replacement".
+
+ACKNOWLEDGEMENTS
+    With thanks to Matt S Trout <mst@shadowcat.co.uk> for suggesting the
+    possibility, and Joshua ben Jore <jjore@cpan.org> for the inspiration by
+    way of UNIVERSAL::ref.
+
+AUTHOR
+    Paul Evans <leonerd@leonerd.org.uk>
+
