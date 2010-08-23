@@ -2,7 +2,11 @@ Build.PL
 Changes
 lib/overload/substr.pm
 lib/overload/substr.xs
+LICENSE
+Makefile.PL
 MANIFEST			This list of files
+META.yml
+README
 t/00use.t
 t/01plain.t
 t/02object.t
@@ -10,7 +14,3 @@ t/03subclass.t
 t/04methodname.t
 t/05defaultname.t
 t/99pod.t
-Makefile.PL
-README
-LICENSE
-META.yml

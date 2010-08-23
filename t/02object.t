@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More tests => 4 + 1;
+use Test::More tests => 9 + 1;
 use Test::NoWarnings;
 
 package SimpleString;
@@ -46,11 +46,34 @@ is_deeply( \@substr_args,
            [ 0, 5, "Goodbye" ],
            '@args to substr replacement' );
 
-TODO: {
-   local $TODO = "LVALUE substr";
+substr( $str, 9, 0 ) = "cruel ";
+is_deeply( \@substr_args,
+           [ 9, 0, "cruel " ],
+           '@args to substr replacment by lvalue' );
 
-   eval { substr( $str, 9, 0 ) = "cruel " };
-   is_deeply( \@substr_args,
-              [ 9, 0, "cruel " ],
-              '@args to substr replacment by lvalue' );
-}
+# Test an OPf_MOD call being fetched
+sub identity { return $_[0] }
+
+$substr_return = "Result";
+$s = identity( substr( $str, 0, 6 ) );
+is( $s, "Result", 'substr result by OPf_MOD get' );
+is_deeply( \@substr_args,
+           [ 0, 6 ],
+           '@args to OPf_MOD get' );
+
+# Now lets just assert that non-string values work successfully
+$substr_return = [ "return" ];
+$s = substr( $str, 1, 2 );
+is_deeply( $s,
+           [ "return" ],
+           'non-string substr extraction' );
+
+substr( $str, 3, 4, [ "replace call" ] );
+is_deeply( \@substr_args,
+           [ 3, 4, [ "replace call" ] ],
+           '@args to non-string substr replacement' );
+
+substr( $str, 5, 6 ) = [ "replace lvalue" ];
+is_deeply( \@substr_args,
+           [ 5, 6, [ "replace lvalue" ] ],
+           '@args to non-string substr replacement by lvalue' );

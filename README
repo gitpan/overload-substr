@@ -45,9 +45,18 @@ DESCRIPTION
     If the "substr" argument is not provided, it defaults to a method called
     "_substr".
 
+    It is not required that the return value be a plain string; any Perl
+    value may be returned unmodified from the "substr" method, or passed in
+    as the value of the replacement. This allows objects to behave in
+    whatever way is deemed most appropriate.
+
 TODO
-    *       Implement LVALUE "substr( $str, $offset, $length ) =
-            $replacement".
+    *       More testing - edge cases, especially in LVALUE logic.
+
+    *       Test for memory leaks, especially in LVALUE logic.
+
+    *       Look into / implement fixup of substr() ops compiled before
+            module is loaded
 
 ACKNOWLEDGEMENTS
     With thanks to Matt S Trout <mst@shadowcat.co.uk> for suggesting the

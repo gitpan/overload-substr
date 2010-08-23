@@ -10,7 +10,7 @@ use warnings;
 
 use Carp;
 
-our $VERSION = '0.01_002';
+our $VERSION = '0.01_003';
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION );
@@ -65,6 +65,11 @@ function that invoked it.
 If the C<substr> argument is not provided, it defaults to a method called
 C<_substr>.
 
+It is not required that the return value be a plain string; any Perl value may
+be returned unmodified from the C<substr> method, or passed in as the value of
+the replacement. This allows objects to behave in whatever way is deemed most
+appropriate.
+
 =cut
 
 sub import
@@ -101,7 +106,15 @@ __END__
 
 =item *
 
-Implement LVALUE C<substr( $str, $offset, $length ) = $replacement>.
+More testing - edge cases, especially in LVALUE logic.
+
+=item *
+
+Test for memory leaks, especially in LVALUE logic.
+
+=item *
+
+Look into / implement fixup of substr() ops compiled before module is loaded
 
 =back
 
