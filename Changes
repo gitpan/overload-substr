@@ -1,0 +1,9 @@
+Revision history for overload-substr
+
+0.01_002 CHANGES:
+         * Support bare name for substr method
+         * Croak on attempts to be called in LVALUE context
+           - TODO: actually implement LVALUE context
+
+0.01_001 First version, released on an unsuspecting world.
+

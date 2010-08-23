@@ -10,7 +10,7 @@ use warnings;
 
 use Carp;
 
-our $VERSION = '0.01_001';
+our $VERSION = '0.01_002';
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION );
@@ -23,7 +23,10 @@ C<overload::substr> - overload Perl's C<substr()> function
 
  package My::Stringlike::Object;
 
- use overload::substr substr => sub {
+ use overload::substr;
+
+ sub _substr
+ {
     my $self = shift;
     if( @_ > 2 ) {
        $self->replace_substr( @_ );
@@ -31,7 +34,7 @@ C<overload::substr> - overload Perl's C<substr()> function
     else {
        return $self->get_substr( @_ );
     }
- };
+ }
 
  ...
 
@@ -41,11 +44,14 @@ This module allows an object class to overload the C<substr> core function,
 which Perl's C<overload> pragma does not allow by itself.
 
 It is invoked similarly to the C<overload> pragma, being passed a single named
-argument which should be a code reference to implement the C<substr> function.
+argument which should be a code reference or method name to implement the
+C<substr> function.
 
  use overload::substr substr => \&SUBSTR;
 
-The referred function will be invoked as per core's C<substr>; namely, it will
+ use overload::substr substr => "SUBSTR";
+
+The referred method will be invoked as per core's C<substr>; namely, it will
 take the string to be operated on (which will be an object in this case), an
 offset, optionally a length, and optionally a replacement.
 
@@ -55,6 +61,9 @@ offset, optionally a length, and optionally a replacement.
 
 In each case, whatever it returns will be the return value of the C<substr>
 function that invoked it.
+
+If the C<substr> argument is not provided, it defaults to a method called
+C<_substr>.
 
 =cut
 
@@ -71,8 +80,13 @@ sub import
    keys %args and
       croak "Unrecognised extra keys to $class: " . join( ", ", sort keys %args );
 
-   # This somewhat steps on overload.pm 's toes
    no strict 'refs';
+
+   unless( ref $substr ) {
+      $substr = \&{$package."::$substr"};
+   }
+
+   # This somewhat steps on overload.pm 's toes
    *{$package."::(substr"} = $substr;
 }
 
@@ -84,10 +98,6 @@ __END__
 =head1 TODO
 
 =over 8
-
-=item *
-
-Allow bare method names as well as CODE refs
 
 =item *
 

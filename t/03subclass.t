@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More tests => 4 + 1;
+use Test::More tests => 2 + 1;
 use Test::NoWarnings;
 
 package SimpleString;
@@ -27,9 +27,12 @@ sub _substr
    return $substr_return;
 }
 
+package SimplerString;
+use base qw( SimpleString );
+
 package main;
 
-my $str = SimpleString->new( "Hello, world" );
+my $str = SimplerString->new( "Hello, world" );
 my $s;
 
 $substr_return = "Hello";
@@ -40,17 +43,3 @@ is( $s, "Hello", 'substr extraction' );
 is_deeply( \@substr_args,
            [ 0, 5 ],
            '@args to substr extraction' );
-
-substr( $str, 0, 5, "Goodbye" );
-is_deeply( \@substr_args,
-           [ 0, 5, "Goodbye" ],
-           '@args to substr replacement' );
-
-TODO: {
-   local $TODO = "LVALUE substr";
-
-   eval { substr( $str, 9, 0 ) = "cruel " };
-   is_deeply( \@substr_args,
-              [ 9, 0, "cruel " ],
-              '@args to substr replacment by lvalue' );
-}

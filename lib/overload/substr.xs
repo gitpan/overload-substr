@@ -29,6 +29,11 @@ PP(pp_overload_substr) {
   if(!substr_method)
     return (*real_pp_substr)(aTHX);
 
+  /* TODO: We don't yet support LVALUE substr; i.e. substr(...) = $replacement
+   */
+  if(PL_op->op_flags & OPf_MOD || LVRET)
+    Perl_croak(aTHX_ "overload::substr does not yet support LVALUE substr()");
+
   ENTER;
   SAVETMPS;
 

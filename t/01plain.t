@@ -7,16 +7,17 @@ use Test::NoWarnings;
 BEGIN {
    require overload::substr;
    # no import
-};
+}
 
-is( substr( "Hello, world", 0, 5 ),
-    "Hello",
-    'substr extraction on constant' );
+my $s;
+
+$s = substr( "Hello, world", 0, 5 );
+is( $s, "Hello", 'substr extraction on constant' );
 
 my $var = "Hello, world";
-is( substr( $var, 0, 5 ),
-    "Hello",
-    'substr extraction on variable' );
+
+$s = substr( $var, 0, 5 );
+is( $s, "Hello", 'substr extraction on variable' );
 
 substr( $var, 0, 5, "Goodbye" );
 is( $var,

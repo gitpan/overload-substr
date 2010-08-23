@@ -4,7 +4,10 @@ NAME
 SYNOPSIS
      package My::Stringlike::Object;
 
-     use overload::substr substr => sub {
+     use overload::substr;
+
+     sub _substr
+     {
         my $self = shift;
         if( @_ > 2 ) {
            $self->replace_substr( @_ );
@@ -12,7 +15,7 @@ SYNOPSIS
         else {
            return $self->get_substr( @_ );
         }
-     };
+     }
 
      ...
 
@@ -21,12 +24,14 @@ DESCRIPTION
     function, which Perl's "overload" pragma does not allow by itself.
 
     It is invoked similarly to the "overload" pragma, being passed a single
-    named argument which should be a code reference to implement the
-    "substr" function.
+    named argument which should be a code reference or method name to
+    implement the "substr" function.
 
      use overload::substr substr => \&SUBSTR;
 
-    The referred function will be invoked as per core's "substr"; namely, it
+     use overload::substr substr => "SUBSTR";
+
+    The referred method will be invoked as per core's "substr"; namely, it
     will take the string to be operated on (which will be an object in this
     case), an offset, optionally a length, and optionally a replacement.
 
@@ -37,9 +42,10 @@ DESCRIPTION
     In each case, whatever it returns will be the return value of the
     "substr" function that invoked it.
 
-TODO
-    *       Allow bare method names as well as CODE refs
+    If the "substr" argument is not provided, it defaults to a method called
+    "_substr".
 
+TODO
     *       Implement LVALUE "substr( $str, $offset, $length ) =
             $replacement".
 
