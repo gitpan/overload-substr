@@ -1,5 +1,8 @@
 Revision history for overload-substr
 
+0.01_004 CHANGES:
+         * Use ppport.h for hopefully-better back-compat.
+
 0.01_003 CHANGES:
          * Implement LVALUE context, in both get and set forms
 

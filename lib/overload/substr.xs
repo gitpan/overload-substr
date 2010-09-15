@@ -10,6 +10,9 @@
 #include "perl.h"
 #include "XSUB.h"
 
+#define NEED_sv_2pv_flags
+#include "../../ppport.h"
+
 static int init_done = 0;
 
 OP *(*real_pp_substr)(pTHX);
