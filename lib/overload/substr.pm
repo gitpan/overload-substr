@@ -10,7 +10,7 @@ use warnings;
 
 use Carp;
 
-our $VERSION = '0.01_004';
+our $VERSION = '0.02';
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION );
@@ -115,6 +115,11 @@ Test for memory leaks, especially in LVALUE logic.
 =item *
 
 Look into / implement fixup of substr() ops compiled before module is loaded
+
+=item *
+
+Consider if implementations of split(), and C<m//> and C<s///> regexps should
+be done that also uses the overloaded substr() method.
 
 =back
 

@@ -58,6 +58,10 @@ TODO
     *       Look into / implement fixup of substr() ops compiled before
             module is loaded
 
+    *       Consider if implementations of split(), and "m//" and "s///"
+            regexps should be done that also uses the overloaded substr()
+            method.
+
 ACKNOWLEDGEMENTS
     With thanks to Matt S Trout <mst@shadowcat.co.uk> for suggesting the
     possibility, and Joshua ben Jore <jjore@cpan.org> for the inspiration by

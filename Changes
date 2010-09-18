@@ -1,5 +1,9 @@
 Revision history for overload-substr
 
+0.02    First non-beta release
+
+---
+
 0.01_004 CHANGES:
          * Use ppport.h for hopefully-better back-compat.
 

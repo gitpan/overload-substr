@@ -17,9 +17,9 @@ name: overload-substr
 provides:
   overload::substr:
     file: lib/overload/substr.pm
-    version: 0.01_004
+    version: 0.02
 requires:
   XSLoader: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01_004
+version: 0.02
