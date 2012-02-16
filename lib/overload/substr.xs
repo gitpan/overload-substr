@@ -120,6 +120,31 @@ PP(pp_overload_substr) {
   if(!substr_method)
     return (*real_pp_substr)(aTHX);
 
+#ifdef OPpSUBSTR_REPL_FIRST
+  if(PL_op->op_private & OPpSUBSTR_REPL_FIRST) {
+    /* This flag means that the replacement comes first, before num_args
+     * Easiest is to push it as the 4th argument then call the method
+     */
+    SV *replacement = SP[-num_args];
+
+    ENTER;
+    SAVETMPS;
+
+    PUSHMARK(SP-num_args);
+    if(num_args < 3)
+      XPUSHs(&PL_sv_undef);
+    XPUSHs(replacement);
+    PUTBACK;
+
+    call_sv((SV*)GvCV(substr_method), G_SCALAR|G_DISCARD);
+
+    FREETMPS;
+    LEAVE;
+
+    RETURN;
+  }
+#endif
+
   if(PL_op->op_flags & OPf_MOD || LVRET) {
     overload_substr_ctx *ctx;
     MAGIC *mg;

@@ -1,7 +1,7 @@
 #  You may distribute under the terms of either the GNU General Public License
 #  or the Artistic License (the same terms as Perl itself)
 #
-#  (C) Paul Evans, 2010 -- leonerd@leonerd.org.uk
+#  (C) Paul Evans, 2010-2012 -- leonerd@leonerd.org.uk
 
 package overload::substr;
 
@@ -10,7 +10,7 @@ use warnings;
 
 use Carp;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 require XSLoader;
 XSLoader::load(__PACKAGE__, $VERSION );
@@ -95,11 +95,6 @@ sub import
    *{$package."::(substr"} = $substr;
 }
 
-# Keep perl happy; keep Britain tidy
-1;
-
-__END__
-
 =head1 TODO
 
 =over 8
@@ -132,3 +127,7 @@ of L<UNIVERSAL::ref>.
 =head1 AUTHOR
 
 Paul Evans <leonerd@leonerd.org.uk>
+
+=cut
+
+0x55AA;

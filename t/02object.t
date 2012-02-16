@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More tests => 9 + 1;
+use Test::More tests => 10 + 1;
 use Test::NoWarnings;
 
 package SimpleString;
@@ -77,3 +77,8 @@ substr( $str, 5, 6 ) = [ "replace lvalue" ];
 is_deeply( \@substr_args,
            [ 5, 6, [ "replace lvalue" ] ],
            '@args to non-string substr replacement by lvalue' );
+
+substr( $str, 8 ) = [ "replace trail lvalue" ];
+is_deeply( \@substr_args,
+           [ 8, undef, [ "replace trail lvalue" ] ],
+           '@args to non-string 2-arg substr replacement by lvalue' );

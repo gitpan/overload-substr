@@ -1,5 +1,9 @@
 Revision history for overload-substr
 
+0.03    CHANGES:
+         * Fix for OPfSUBSTR_REPL_FIRST behaviour of perl 5.15.5 onwards
+           (RT74888)
+
 0.02    First non-beta release
 
 ---
